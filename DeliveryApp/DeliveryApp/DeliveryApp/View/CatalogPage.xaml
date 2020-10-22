@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="DeliveryApp.View.CatalogPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout>
+                <Frame BackgroundColor="Bisque" 
+                       HeightRequest="50">
+                    <Picker x:Name="ProductsPicker" 
+                            ItemDisplayBinding="{Binding Name}" 
+                            SelectedIndexChanged="ProductsPicker_SelectedIndexChanged"/>
+                </Frame>
+                <Frame>
+                    <Image BackgroundColor="Blue" 
+                           HeightRequest="340" 
+                           Source="{Binding Source={x:Reference ProductsPicker}, Path=SelectedItem.ImageUrl}"/>
+                </Frame>
+                <Frame>
+                    <StackLayout Orientation="Horizontal">
+                        <Editor x:Name="ProductsCountEditor" 
+                                HorizontalOptions="FillAndExpand" 
+                                BackgroundColor="AntiqueWhite" 
+                                MaxLength="4" 
+                                Keyboard="Numeric"
+                                IsReadOnly="True" 
+                                Text="{Binding Source={x:Reference ProductsPicker}, Path=SelectedItem.Count}"/>
+                        <Stepper x:Name="ProductsCountStepper" 
+                                 Minimum="0" 
+                                 Maximum="1000" 
+                                 ValueChanged="ProductsCountStepper_OnValueChanged"/>
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" 
+                         VerticalOptions="EndAndExpand" 
+                         BackgroundColor="Aquamarine">
+                <Button Text="Confirm" 
+                        HorizontalOptions="CenterAndExpand" 
+                        WidthRequest="150" 
+                        Clicked="ConfirmButton_Clicked"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

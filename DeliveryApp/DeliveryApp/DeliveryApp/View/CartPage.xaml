@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="DeliveryApp.View.CartPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout>
+                <Frame HeightRequest="30" 
+                       BackgroundColor="Chartreuse">
+                    <Label Text="Basket" 
+                           HorizontalOptions="Center" 
+                           FontSize="20"/>
+                </Frame>
+            </StackLayout>
+            <ListView x:Name="Cart"
+                          HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <StackLayout Orientation="Horizontal"
+                                             Margin="10">
+                                    <Image HeightRequest="50"
+                                           WidthRequest="50"
+                                           Source="{Binding ImageUrl}" />
+                                    <Label HeightRequest="50"
+                                           WidthRequest="100"
+                                           Text="{Binding Name}"
+                                           FontSize="18"/>
+                                    <Stepper HeightRequest="50"
+                                             WidthRequest="120"
+                                             Value="{Binding Count}"
+                                             Minimum="1"
+                                             Maximum="1000"/>
+                                    <Label HorizontalTextAlignment="Center"
+                                           VerticalTextAlignment="Center"
+                                           HeightRequest="50"
+                                           WidthRequest="50"
+                                           Text="{Binding Count}"/>
+                                    <Button x:Name="DeleteProductButton" 
+                                            Text="x"
+                                            HorizontalOptions="End"
+                                            HeightRequest="50"
+                                            WidthRequest="50"
+                                            Clicked="DeleteProductButton_Clicked"/>
+                                </StackLayout>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <StackLayout Orientation="Horizontal"
+                         VerticalOptions="EndAndExpand" 
+                         BackgroundColor="Aquamarine"
+                         HeightRequest="70"
+                         Padding="10">
+                <Button Text="Order"
+                        HorizontalOptions="EndAndExpand"
+                        WidthRequest="150"
+                        VerticalOptions="Center" 
+                        HeightRequest="60"
+                        Clicked="OrderProducts_ButtonClicked"/>
+                <Button x:Name="PlusButton"
+                        IsEnabled="True"
+                        Text="+"
+                        FontSize="35"
+                        CornerRadius="30"
+                        HorizontalOptions="CenterAndExpand"
+                        WidthRequest="70"
+                        Clicked="AddProductsButton_Clicked"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
