@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Text;
 using System.Windows.Input;
-using Notes.Model;
 using Xamarin.Forms;
 using Notes.View;
 using System.Runtime.CompilerServices;
+using Notes.Service;
 
 namespace Notes.ViewModel
 {
@@ -17,14 +16,13 @@ namespace Notes.ViewModel
 
         private NoteViewModel _selectedNote;
         private bool _canOpen;
+        private List<NoteViewModel> _notes;
 
         public ListNotesViewModel(INavigation navigation)
         {
-            ListNotesLeft = new ObservableCollection<NoteViewModel>();
-            ListNotesRight = new ObservableCollection<NoteViewModel>();
-
+            SetData();
+            
             _canOpen = true;
-
             Navigation = navigation;
 
             AddCommand = new Command(AddNote);
@@ -32,6 +30,7 @@ namespace Notes.ViewModel
             BackCommand = new Command(Back);
             TapCommand = new Command(OnTap);
             SwipeCommand = new Command(OnSwipe);
+
         }
         public ObservableCollection<NoteViewModel> ListNotesLeft { get; private set; }
         public ObservableCollection<NoteViewModel> ListNotesRight { get; private set; }
@@ -47,6 +46,21 @@ namespace Notes.ViewModel
         public ICommand TapCommand { get; private set; }
         public ICommand SwipeCommand { get; private set; }
 
+        private void SetData()
+        {
+            _notes = Saver.Instance.LoadData();
+
+            foreach(var element in _notes)
+            {
+                element.ListNotesViewModel = this;
+            }
+
+            ListNotesLeft = new ObservableCollection<NoteViewModel>();
+            ListNotesRight = new ObservableCollection<NoteViewModel>();
+
+            SortNotes();
+        }
+
         private void AddNote()
         {
             CanOpen = false;
@@ -58,48 +72,68 @@ namespace Notes.ViewModel
             var noteViewModel = note as NoteViewModel;
 
             if (noteViewModel != null)
-            { 
-                Console.WriteLine("HeightLeft = " + HeightLeft);
-                Console.WriteLine("HeightRight = " + HeightRight);
-
-                if (HeightLeft > HeightRight)
+            {
+                if (noteViewModel.Empty())
                 {
-                    AddNoteToTheList(ListNotesRight, noteViewModel);
+                    DeleteNote(note);
                 }
                 else
                 {
-                    AddNoteToTheList(ListNotesLeft, noteViewModel);
+                    if (!_notes.Contains(noteViewModel)) //TODO refactor code: add new note to NoteViewModel ?
+                    {
+                        _notes.Add(noteViewModel);
+                    }
+                    if (noteViewModel.Changed())
+                    {
+                        noteViewModel.Date = DateTime.Now;
+                    }
+
+                    SortNotes();
                 }
             }
 
             Back();
         }
 
-        private void AddNoteToTheList(ObservableCollection<NoteViewModel> list, NoteViewModel note)
+        private void SortNotes()
         {
-            if (!ListNotesRight.Contains(note) && !ListNotesLeft.Contains(note))
+            ListNotesLeft.Clear();
+            ListNotesRight.Clear();
+
+            _notes.Sort();
+
+            for (int i = 0; i < _notes.Count; i++)
             {
-                list.Add(note);
-            }
-            else
-            {
-                note.Date = DateTime.Now;
+                if (i % 2 == 0)
+                {
+                    ListNotesLeft.Add(_notes[i]);
+                }
+                else
+                {
+                    ListNotesRight.Add(_notes[i]);
+                }
             }
         }
 
         private void Back()
         {
+            Saver.Instance.SaveDataAsync(_notes);
             CanOpen = true;
             Navigation.PopAsync();
         }
 
         private void OnTap(object obj)
         {
-            NoteViewModel selectedNote = obj as NoteViewModel;
-
-            if (selectedNote != null)
+            if (CanOpen)
             {
-                SelectedNote = selectedNote;
+                CanOpen = false;
+
+                NoteViewModel selectedNote = obj as NoteViewModel;
+
+                if (selectedNote != null)
+                {
+                    SelectedNote = selectedNote;
+                }
             }
         }
 
@@ -118,12 +152,9 @@ namespace Notes.ViewModel
 
             if (selectedNote != null)
             {
-                if (!ListNotesLeft.Remove(selectedNote))
-                {
-                    ListNotesRight.Remove(selectedNote);
-                }
+                _notes.Remove(selectedNote);
 
-                Console.WriteLine("size of left list: " + ListNotesLeft.Count);
+                SortNotes();
             }
         }
 

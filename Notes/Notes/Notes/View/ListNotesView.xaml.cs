@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Notes.ViewModel;
+using Notes.Service;
+using System.Collections.ObjectModel;
 
 namespace Notes.View
 {
@@ -14,6 +16,7 @@ namespace Notes.View
     {
         public ListNotesView()
         {
+            /*BindingContext = new ListNotesViewModel(Navigation, Saver.Instance.LoadData());*/
             BindingContext = new ListNotesViewModel(Navigation);
             InitializeComponent();
         }

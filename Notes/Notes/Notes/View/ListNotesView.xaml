@@ -13,7 +13,7 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <StackLayout BindableLayout.ItemsSource="{Binding ListNotesLeft}"
+                    <StackLayout BindableLayout.ItemsSource="{Binding ListNotesLeft, Mode=TwoWay}"
                                  VerticalOptions="Start"
                                  Grid.Column="0"
                                  Height="{Binding HeightLeft, Mode=OneWayToSource}">
@@ -28,6 +28,7 @@
                                                                 Threshold="10"
                                                                 Command="{Binding ListNotesViewModel.SwipeCommand}"
                                                                 CommandParameter="{Binding}"/>
+                                        <PanGestureRecognizer  />
                                     </StackLayout.GestureRecognizers>
                                     <Label Text="{Binding Message}"
                                            FontSize="Medium"
@@ -41,7 +42,7 @@
                             </DataTemplate>
                         </BindableLayout.ItemTemplate>
                     </StackLayout>
-                    <StackLayout BindableLayout.ItemsSource="{Binding ListNotesRight}"
+                    <StackLayout BindableLayout.ItemsSource="{Binding ListNotesRight, Mode=TwoWay}"
                                  Grid.Column="1"
                                  VerticalOptions="Start"
                                  Height="{Binding HeightRight, Mode=OneWayToSource}">
@@ -70,19 +71,17 @@
                     </StackLayout>
                 </Grid>
             </ScrollView>
-            <StackLayout HorizontalOptions="End"
-                         VerticalOptions="EndAndExpand"
-                         Padding="30">
-                <Button Text="+"
-                        VerticalOptions="EndAndExpand"
-                        FontSize="40"
-                        BackgroundColor="Orchid"
-                        CornerRadius="40"
-                        HeightRequest="80"
-                        WidthRequest="80"
-                        IsEnabled="{Binding CanOpen}"
-                        Command="{Binding AddCommand}"/>
-            </StackLayout>
+            <Button Text="+"
+                    HorizontalOptions="End"
+                    VerticalOptions="EndAndExpand"
+                    Margin="20"
+                    FontSize="40"
+                    BackgroundColor="Orchid"
+                    CornerRadius="40"
+                    HeightRequest="80"
+                    WidthRequest="80"
+                    IsEnabled="{Binding CanOpen}"
+                    Command="{Binding AddCommand}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
