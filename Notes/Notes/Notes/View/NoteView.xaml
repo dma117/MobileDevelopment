@@ -6,18 +6,33 @@
              mc:Ignorable="d"
              x:Class="Notes.View.NoteView">
     <ContentPage.Content>
-        <StackLayout BackgroundColor="Beige">
-            <StackLayout Orientation="Horizontal"
+        <StackLayout>
+            <StackLayout BackgroundColor="Beige">
+                <StackLayout Orientation="Horizontal"
                          HorizontalOptions="End">
-                <Label Text="{Binding MessageSize}"
+                    <Label Text="{Binding MessageSize}"
                        CharacterSpacing="1.5"
                        Padding="3"/>
-                <Label Text="{Binding Date}"
+                    <Label Text="{Binding Date}"
                         CharacterSpacing="1.5"
                         Padding="3"/>
-            </StackLayout>
-            <Editor Text="{Binding Message}"
+                </StackLayout>
+                <Editor Text="{Binding Message}"
                     HeightRequest="750"/>
+            </StackLayout>
+            <StackLayout Padding="10"
+                         WidthRequest="193"
+                         Height="{Binding Height, Mode=OneWayToSource}"
+                         Opacity="0"
+                         InputTransparent="True">
+                <Label Text="{Binding Message}"
+                       FontSize="Medium"
+                       MaxLines="{Binding NoteMaxSize}"
+                       LineBreakMode="TailTruncation"/>
+                <Label Text="{Binding Date}"
+                       CharacterSpacing="1.5"
+                       Padding="3"/>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -15,12 +15,12 @@
                     </Grid.ColumnDefinitions>
                     <StackLayout BindableLayout.ItemsSource="{Binding ListNotesLeft, Mode=TwoWay}"
                                  VerticalOptions="Start"
-                                 Grid.Column="0"
-                                 Height="{Binding HeightLeft, Mode=OneWayToSource}">
+                                 Grid.Column="0">
                         <BindableLayout.ItemTemplate>
                             <DataTemplate>
                                 <StackLayout BackgroundColor="LightSkyBlue"
-                                             Padding="10">
+                                             Padding="10"
+                                             Width="{Binding ListNotesViewModel.Width}">
                                     <StackLayout.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding ListNotesViewModel.TapCommand}"
                                                               CommandParameter="{Binding}"/>
@@ -44,8 +44,7 @@
                     </StackLayout>
                     <StackLayout BindableLayout.ItemsSource="{Binding ListNotesRight, Mode=TwoWay}"
                                  Grid.Column="1"
-                                 VerticalOptions="Start"
-                                 Height="{Binding HeightRight, Mode=OneWayToSource}">
+                                 VerticalOptions="Start">
                         <BindableLayout.ItemTemplate>
                             <DataTemplate>
                                 <StackLayout BackgroundColor="LightGreen"

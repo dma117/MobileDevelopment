@@ -34,10 +34,6 @@ namespace Notes.ViewModel
         }
         public ObservableCollection<NoteViewModel> ListNotesLeft { get; private set; }
         public ObservableCollection<NoteViewModel> ListNotesRight { get; private set; }
-
-        public double HeightLeft { private get; set; }
-        public double HeightRight { private get; set; }
-
         public INavigation Navigation { get; private set; }
 
         public ICommand AddCommand { get; private set; }
@@ -48,7 +44,7 @@ namespace Notes.ViewModel
 
         private void SetData()
         {
-            _notes = Saver.Instance.LoadData();
+             _notes = Saver.Instance.LoadData();
 
             foreach(var element in _notes)
             {
@@ -97,6 +93,9 @@ namespace Notes.ViewModel
 
         private void SortNotes()
         {
+            double HeightLeft = 0;
+            double HeightRight = 0;
+
             ListNotesLeft.Clear();
             ListNotesRight.Clear();
 
@@ -104,13 +103,15 @@ namespace Notes.ViewModel
 
             for (int i = 0; i < _notes.Count; i++)
             {
-                if (i % 2 == 0)
+                if (HeightLeft > HeightRight)
                 {
-                    ListNotesLeft.Add(_notes[i]);
+                    ListNotesRight.Add(_notes[i]);
+                    HeightRight += _notes[i].Height;
                 }
                 else
                 {
-                    ListNotesRight.Add(_notes[i]);
+                    ListNotesLeft.Add(_notes[i]);
+                    HeightLeft += _notes[i].Height;
                 }
             }
         }

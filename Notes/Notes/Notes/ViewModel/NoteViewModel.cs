@@ -18,8 +18,10 @@ namespace Notes.ViewModel
         public NoteViewModel()
         {
             _note = new Note();
-            _noteMaxSize = 1;
+            _noteMaxSize = 6;
         }
+
+        public double Height { get; set; }
 
         [JsonIgnore]
         public ListNotesViewModel ListNotesViewModel

@@ -11,5 +11,6 @@ namespace Notes.Model
         public string PreviousMessage { get; set; }
         public DateTime Date { get; set; }
         public int MessageSize { get; set; }
+        public double Height { get; set; }
     }
 }
