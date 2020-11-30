@@ -21,7 +21,7 @@
                     HeightRequest="750"/>
             </StackLayout>
             <StackLayout Padding="10"
-                         WidthRequest="193"
+                         WidthRequest="193.36"
                          Height="{Binding Height, Mode=OneWayToSource}"
                          Opacity="0"
                          InputTransparent="True">

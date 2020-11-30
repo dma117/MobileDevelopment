@@ -28,12 +28,13 @@ namespace Notes.ViewModel
             AddCommand = new Command(AddNote);
             SaveCommand = new Command(SaveNote);
             BackCommand = new Command(Back);
-            TapCommand = new Command(OnTap);
-            SwipeCommand = new Command(OnSwipe);
+            TapCommand = new Command(OnTap, (o) => CanOpen) ;
+            SwipeCommand = new Command(OnSwipe, (o) => CanOpen);
 
         }
         public ObservableCollection<NoteViewModel> ListNotesLeft { get; private set; }
         public ObservableCollection<NoteViewModel> ListNotesRight { get; private set; }
+        public double Width { get; set; }
         public INavigation Navigation { get; private set; }
 
         public ICommand AddCommand { get; private set; }
@@ -125,26 +126,27 @@ namespace Notes.ViewModel
 
         private void OnTap(object obj)
         {
-            if (CanOpen)
+            CanOpen = false;
+
+            NoteViewModel selectedNote = obj as NoteViewModel;
+
+            if (selectedNote != null)
             {
-                CanOpen = false;
-
-                NoteViewModel selectedNote = obj as NoteViewModel;
-
-                if (selectedNote != null)
-                {
-                    SelectedNote = selectedNote;
-                }
+                SelectedNote = selectedNote;
             }
         }
 
         private async void OnSwipe(object obj)
         {
+            CanOpen = false;
+
             if (await Application.Current.MainPage.DisplayAlert("Delete",
                         "Click ok to delete the note", "OK", "Cancel"))
             {
                 DeleteNote(obj);
             }
+
+            CanOpen = true;
         }
 
         private void DeleteNote(object obj)

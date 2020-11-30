@@ -3,11 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:Notes.Service"
              mc:Ignorable="d"
              x:Class="Notes.View.ListNotesView">
     <ContentPage.Content>
-        <StackLayout>
-            <ScrollView>
+        <StackLayout x:Name="main">
+            <StackLayout.GestureRecognizers>
+                <PanGestureRecognizer PanUpdated="PanGestureRecognizer_PanUpdated"/>
+            </StackLayout.GestureRecognizers>
+            <StackLayout x:Name="stack">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -15,7 +19,8 @@
                     </Grid.ColumnDefinitions>
                     <StackLayout BindableLayout.ItemsSource="{Binding ListNotesLeft, Mode=TwoWay}"
                                  VerticalOptions="Start"
-                                 Grid.Column="0">
+                                 Grid.Column="0"
+                             x:Name="stackLeft">
                         <BindableLayout.ItemTemplate>
                             <DataTemplate>
                                 <StackLayout BackgroundColor="LightSkyBlue"
@@ -24,11 +29,8 @@
                                     <StackLayout.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding ListNotesViewModel.TapCommand}"
                                                               CommandParameter="{Binding}"/>
-                                        <SwipeGestureRecognizer Direction="Left"
-                                                                Threshold="10"
-                                                                Command="{Binding ListNotesViewModel.SwipeCommand}"
-                                                                CommandParameter="{Binding}"/>
-                                        <PanGestureRecognizer  />
+
+                                        <PanGestureRecognizer PanUpdated="PanGestureRecognizer_PanUpdated"/>
                                     </StackLayout.GestureRecognizers>
                                     <Label Text="{Binding Message}"
                                            FontSize="Medium"
@@ -44,7 +46,8 @@
                     </StackLayout>
                     <StackLayout BindableLayout.ItemsSource="{Binding ListNotesRight, Mode=TwoWay}"
                                  Grid.Column="1"
-                                 VerticalOptions="Start">
+                                 VerticalOptions="Start"
+                             x:Name="stackRight">
                         <BindableLayout.ItemTemplate>
                             <DataTemplate>
                                 <StackLayout BackgroundColor="LightGreen"
@@ -56,6 +59,7 @@
                                                                 Threshold="10"
                                                                 Command="{Binding ListNotesViewModel.SwipeCommand}"
                                                                 CommandParameter="{Binding}"/>
+                                        <PanGestureRecognizer PanUpdated="PanGestureRecognizer_PanUpdated"/>
                                     </StackLayout.GestureRecognizers>
                                     <Label Text="{Binding Message}"
                                            FontSize="Medium"
@@ -68,19 +72,21 @@
                             </DataTemplate>
                         </BindableLayout.ItemTemplate>
                     </StackLayout>
+
                 </Grid>
-            </ScrollView>
+            </StackLayout>
+
             <Button Text="+"
-                    HorizontalOptions="End"
-                    VerticalOptions="EndAndExpand"
-                    Margin="20"
-                    FontSize="40"
-                    BackgroundColor="Orchid"
-                    CornerRadius="40"
-                    HeightRequest="80"
-                    WidthRequest="80"
-                    IsEnabled="{Binding CanOpen}"
-                    Command="{Binding AddCommand}"/>
+                HorizontalOptions="End"
+                VerticalOptions="EndAndExpand"
+                Margin="20"
+                FontSize="40"
+                BackgroundColor="Orchid"
+                CornerRadius="40"
+                HeightRequest="80"
+                WidthRequest="80"
+                IsEnabled="{Binding CanOpen}"
+                Command="{Binding AddCommand}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
