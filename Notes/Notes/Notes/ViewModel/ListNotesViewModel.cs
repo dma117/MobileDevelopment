@@ -21,20 +21,19 @@ namespace Notes.ViewModel
         public ListNotesViewModel(INavigation navigation)
         {
             SetData();
-            
+
             _canOpen = true;
             Navigation = navigation;
 
             AddCommand = new Command(AddNote);
             SaveCommand = new Command(SaveNote);
             BackCommand = new Command(Back);
-            TapCommand = new Command(OnTap, (o) => CanOpen) ;
-            SwipeCommand = new Command(OnSwipe, (o) => CanOpen);
+            TapCommand = new Command(OnTap);
+            SwipeCommand = new Command(OnSwipe);
 
         }
         public ObservableCollection<NoteViewModel> ListNotesLeft { get; private set; }
         public ObservableCollection<NoteViewModel> ListNotesRight { get; private set; }
-        public double Width { get; set; }
         public INavigation Navigation { get; private set; }
 
         public ICommand AddCommand { get; private set; }
@@ -45,9 +44,9 @@ namespace Notes.ViewModel
 
         private void SetData()
         {
-             _notes = Saver.Instance.LoadData();
+            _notes = Saver.Instance.LoadData();
 
-            foreach(var element in _notes)
+            foreach (var element in _notes)
             {
                 element.ListNotesViewModel = this;
             }
@@ -126,27 +125,26 @@ namespace Notes.ViewModel
 
         private void OnTap(object obj)
         {
-            CanOpen = false;
-
-            NoteViewModel selectedNote = obj as NoteViewModel;
-
-            if (selectedNote != null)
+            if (CanOpen)
             {
-                SelectedNote = selectedNote;
+                CanOpen = false;
+
+                NoteViewModel selectedNote = obj as NoteViewModel;
+
+                if (selectedNote != null)
+                {
+                    SelectedNote = selectedNote;
+                }
             }
         }
 
         private async void OnSwipe(object obj)
         {
-            CanOpen = false;
-
             if (await Application.Current.MainPage.DisplayAlert("Delete",
                         "Click ok to delete the note", "OK", "Cancel"))
             {
                 DeleteNote(obj);
             }
-
-            CanOpen = true;
         }
 
         private void DeleteNote(object obj)
@@ -164,7 +162,7 @@ namespace Notes.ViewModel
         public bool CanOpen
         {
             get => _canOpen;
-            
+
             set
             {
                 if (value != _canOpen)

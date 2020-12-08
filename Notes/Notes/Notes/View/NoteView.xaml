@@ -8,17 +8,23 @@
     <ContentPage.Content>
         <StackLayout>
             <StackLayout BackgroundColor="Beige">
-                <StackLayout Orientation="Horizontal"
-                         HorizontalOptions="End">
-                    <Label Text="{Binding MessageSize}"
-                       CharacterSpacing="1.5"
-                       Padding="3"/>
+                <StackLayout Orientation="Horizontal">
                     <Label Text="{Binding Date}"
-                        CharacterSpacing="1.5"
-                        Padding="3"/>
+                           FontFamily="Lobster"
+                           HorizontalOptions="Start"
+                           CharacterSpacing="1.5"
+                           Padding="3"/>
+                    <Label Text="{Binding MessageSize}"
+                           FontFamily="Lobster"
+                           HorizontalOptions="EndAndExpand"
+                           CharacterSpacing="1.5"
+                           Padding="3"/>
                 </StackLayout>
                 <Editor Text="{Binding Message}"
-                    HeightRequest="750"/>
+                        FontFamily="Caveat"
+                        FontSize="25"
+                        HeightRequest="750"
+                        IsSpellCheckEnabled="False"/>
             </StackLayout>
             <StackLayout Padding="10"
                          WidthRequest="193.36"
@@ -26,10 +32,13 @@
                          Opacity="0"
                          InputTransparent="True">
                 <Label Text="{Binding Message}"
-                       FontSize="Medium"
+                       FontSize="Large"
                        MaxLines="{Binding NoteMaxSize}"
-                       LineBreakMode="TailTruncation"/>
+                       LineBreakMode="TailTruncation"
+                       FontFamily="Caveat"/>
                 <Label Text="{Binding Date}"
+                       FontSize="Small"
+                       FontFamily="Lobster"
                        CharacterSpacing="1.5"
                        Padding="3"/>
             </StackLayout>

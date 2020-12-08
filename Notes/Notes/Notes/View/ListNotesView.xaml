@@ -3,90 +3,106 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:local="clr-namespace:Notes.Service"
              mc:Ignorable="d"
              x:Class="Notes.View.ListNotesView">
     <ContentPage.Content>
-        <StackLayout x:Name="main">
-            <StackLayout.GestureRecognizers>
-                <PanGestureRecognizer PanUpdated="PanGestureRecognizer_PanUpdated"/>
-            </StackLayout.GestureRecognizers>
-            <StackLayout x:Name="stack">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <StackLayout BindableLayout.ItemsSource="{Binding ListNotesLeft, Mode=TwoWay}"
-                                 VerticalOptions="Start"
-                                 Grid.Column="0"
-                             x:Name="stackLeft">
-                        <BindableLayout.ItemTemplate>
-                            <DataTemplate>
-                                <StackLayout BackgroundColor="LightSkyBlue"
-                                             Padding="10"
-                                             Width="{Binding ListNotesViewModel.Width}">
-                                    <StackLayout.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding ListNotesViewModel.TapCommand}"
-                                                              CommandParameter="{Binding}"/>
-
-                                        <PanGestureRecognizer PanUpdated="PanGestureRecognizer_PanUpdated"/>
-                                    </StackLayout.GestureRecognizers>
-                                    <Label Text="{Binding Message}"
-                                           FontSize="Medium"
-                                           MaxLines="{Binding NoteMaxSize}"
-                                           LineBreakMode="TailTruncation"/>
-                                    <Label Text="{Binding Date}"
-                                           FontSize="Small"
-                                           CharacterSpacing="1.5"
-                                           Padding="3"/>
-                                </StackLayout>
-                            </DataTemplate>
-                        </BindableLayout.ItemTemplate>
-                    </StackLayout>
-                    <StackLayout BindableLayout.ItemsSource="{Binding ListNotesRight, Mode=TwoWay}"
-                                 Grid.Column="1"
-                                 VerticalOptions="Start"
-                             x:Name="stackRight">
-                        <BindableLayout.ItemTemplate>
-                            <DataTemplate>
-                                <StackLayout BackgroundColor="LightGreen"
-                                             Padding="10">
-                                    <StackLayout.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding ListNotesViewModel.TapCommand}"
-                                                              CommandParameter="{Binding}"/>
-                                        <SwipeGestureRecognizer Direction="Right"
-                                                                Threshold="10"
-                                                                Command="{Binding ListNotesViewModel.SwipeCommand}"
-                                                                CommandParameter="{Binding}"/>
-                                        <PanGestureRecognizer PanUpdated="PanGestureRecognizer_PanUpdated"/>
-                                    </StackLayout.GestureRecognizers>
-                                    <Label Text="{Binding Message}"
-                                           FontSize="Medium"
-                                           MaxLines="{Binding NoteMaxSize}"
-                                           LineBreakMode="TailTruncation"/>
-                                    <Label Text="{Binding Date}"
-                                           CharacterSpacing="1.5"
-                                           Padding="3"/>
-                                </StackLayout>
-                            </DataTemplate>
-                        </BindableLayout.ItemTemplate>
-                    </StackLayout>
-
-                </Grid>
-            </StackLayout>
+        <Grid>
+            <StackLayout>
+                <StackLayout.Background>
+                    <LinearGradientBrush>
+                        <GradientStop Color="DarkBlue"
+                                      Offset="0.1"/>
+                        <GradientStop Color="DodgerBlue"
+                                      Offset="0.3"/>
+                        <GradientStop Color="MediumBlue"
+                                      Offset="0.5"/>
+                        <GradientStop Color="Blue"
+                                      Offset="0.7"/>
+                        <GradientStop Color="LightSkyBlue" 
+                                      Offset="1.0"/>
+                    </LinearGradientBrush>
+                </StackLayout.Background>
+                <ScrollView>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <StackLayout BindableLayout.ItemsSource="{Binding ListNotesLeft, Mode=TwoWay}"
+                                     VerticalOptions="Start"
+                                     Grid.Column="0">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <StackLayout BackgroundColor="LightSkyBlue"
+                                                 Padding="10"
+                                                 Width="{Binding ListNotesViewModel.Width}">
+                                        <StackLayout.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding ListNotesViewModel.TapCommand}"
+                                                                  CommandParameter="{Binding}"/>
+                                            <SwipeGestureRecognizer Direction="Left"
+                                                                    Threshold="10"
+                                                                    Command="{Binding ListNotesViewModel.SwipeCommand}"
+                                                                    CommandParameter="{Binding}"/>
+                                            <PanGestureRecognizer  />
+                                        </StackLayout.GestureRecognizers>
+                                        <Label Text="{Binding Message}"
+                                               FontSize="Large"
+                                               MaxLines="{Binding NoteMaxSize}"
+                                               LineBreakMode="TailTruncation"
+                                               FontFamily="Caveat"/>
+                                        <Label Text="{Binding Date}"
+                                               FontSize="Small"
+                                               FontFamily="Lobster"
+                                               CharacterSpacing="1.5"
+                                               Padding="3"/>
+                                    </StackLayout>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </StackLayout>
+                        <StackLayout BindableLayout.ItemsSource="{Binding ListNotesRight, Mode=TwoWay}"
+                                     Grid.Column="1"
+                                     VerticalOptions="Start">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <StackLayout BackgroundColor="LightGreen"
+                                                 Padding="10">
+                                        <StackLayout.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding ListNotesViewModel.TapCommand}"
+                                                                  CommandParameter="{Binding}"/>
+                                            <SwipeGestureRecognizer Direction="Right"
+                                                                    Threshold="10"
+                                                                    Command="{Binding ListNotesViewModel.SwipeCommand}"
+                                                                    CommandParameter="{Binding}"/>
+                                        </StackLayout.GestureRecognizers>
+                                        <Label Text="{Binding Message}"
+                                               FontSize="Large"
+                                               MaxLines="{Binding NoteMaxSize}"
+                                               LineBreakMode="TailTruncation"
+                                               FontFamily="Caveat"/>
+                                        <Label Text="{Binding Date}"
+                                               FontSize="Small"
+                                               FontFamily="Lobster"
+                                               CharacterSpacing="1.5"
+                                               Padding="3"/>
+                                    </StackLayout>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </StackLayout>
+                    </Grid>
+                </ScrollView>
+        </StackLayout>
 
             <Button Text="+"
-                HorizontalOptions="End"
-                VerticalOptions="EndAndExpand"
-                Margin="20"
-                FontSize="40"
-                BackgroundColor="Orchid"
-                CornerRadius="40"
-                HeightRequest="80"
-                WidthRequest="80"
-                IsEnabled="{Binding CanOpen}"
-                Command="{Binding AddCommand}"/>
-        </StackLayout>
+                    HorizontalOptions="End"
+                    VerticalOptions="EndAndExpand"
+                    Margin="20"
+                    FontSize="40"
+                    BackgroundColor="Orchid"
+                    CornerRadius="40"
+                    HeightRequest="80"
+                    WidthRequest="80"
+                    IsEnabled="{Binding CanOpen}"
+                    Command="{Binding AddCommand}"/>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

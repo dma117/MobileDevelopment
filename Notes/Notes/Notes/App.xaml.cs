@@ -11,6 +11,7 @@ namespace Notes
         public App()
         {
             InitializeComponent();
+            Device.SetFlags(new[] { "Brush_Experimental" });
 
             MainPage = new NavigationPage(new ListNotesView());
         }
