@@ -3,6 +3,9 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Notes.Model;
 using Newtonsoft.Json;
+using System.Windows.Input;
+using Xamarin.Forms;
+using Notes.Service;
 
 namespace Notes.ViewModel
 {
@@ -19,9 +22,13 @@ namespace Notes.ViewModel
         {
             _note = new Note();
             _noteMaxSize = 6;
+
+            ShareCommand = new Command(Share);
         }
 
         public double Height { get; set; }
+
+        public ICommand ShareCommand { get; private set; }
 
         [JsonIgnore]
         public ListNotesViewModel ListNotesViewModel
@@ -96,6 +103,16 @@ namespace Notes.ViewModel
                     _noteMaxSize = value;
                     OnPropertyChanged();
                 }
+            }
+        }
+
+        public async void Share(object obj)
+        {
+            string text = obj as string;
+
+            if (text != null)
+            {
+                await Service.Share.ShareText(text);
             }
         }
 

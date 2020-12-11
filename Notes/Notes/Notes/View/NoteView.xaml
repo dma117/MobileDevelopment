@@ -4,11 +4,21 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="Notes.View.NoteView">
+             x:Class="Notes.View.NoteView"
+             NavigationPage.HasBackButton="False">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="OK"
+                     Priority="0"
+                     Order="Primary"
+                     IconImageSource="back.png"
+                     Command="{Binding ListNotesViewModel.SaveCommand}"
+                     CommandParameter="{Binding}"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
             <StackLayout BackgroundColor="Beige">
-                <StackLayout Orientation="Horizontal">
+                <StackLayout Orientation="Horizontal"
+                             VerticalOptions="Center">
                     <Label Text="{Binding Date}"
                            FontFamily="Lobster"
                            HorizontalOptions="Start"
@@ -19,6 +29,10 @@
                            HorizontalOptions="EndAndExpand"
                            CharacterSpacing="1.5"
                            Padding="3"/>
+                    <Button Text="Share"
+                            HorizontalOptions="EndAndExpand"
+                            Command="{Binding ShareCommand}"
+                            CommandParameter="{Binding Message}"/>
                 </StackLayout>
                 <Editor Text="{Binding Message}"
                         FontFamily="Caveat"
