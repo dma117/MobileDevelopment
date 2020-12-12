@@ -6,6 +6,18 @@
              mc:Ignorable="d"
              x:Class="Notes.View.NoteView"
              NavigationPage.HasBackButton="False">
+    <NavigationPage.TitleView>
+        <StackLayout Orientation="Horizontal"
+                     HorizontalOptions="StartAndExpand"
+                     Padding="-18">
+            <Button Text="Back"
+                    TextColor="White"
+                    BackgroundColor="Transparent"
+                    ImageSource="back_button.png"
+                    Command="{Binding ListNotesViewModel.SaveCommand}"
+                    CommandParameter="{Binding}"/>
+        </StackLayout>
+    </NavigationPage.TitleView>
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="OK"
                      Priority="0"
@@ -13,6 +25,12 @@
                      IconImageSource="back.png"
                      Command="{Binding ListNotesViewModel.SaveCommand}"
                      CommandParameter="{Binding}"/>
+        <ToolbarItem Text="Share"
+                     Priority="1"
+                     Order="Secondary"
+                     IconImageSource="back.png"
+                     Command="{Binding ShareCommand}"
+                     CommandParameter="{Binding Message}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
@@ -29,10 +47,6 @@
                            HorizontalOptions="EndAndExpand"
                            CharacterSpacing="1.5"
                            Padding="3"/>
-                    <Button Text="Share"
-                            HorizontalOptions="EndAndExpand"
-                            Command="{Binding ShareCommand}"
-                            CommandParameter="{Binding Message}"/>
                 </StackLayout>
                 <Editor Text="{Binding Message}"
                         FontFamily="Caveat"
