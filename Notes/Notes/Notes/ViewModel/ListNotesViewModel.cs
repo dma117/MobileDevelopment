@@ -25,11 +25,11 @@ namespace Notes.ViewModel
             _canOpen = true;
             Navigation = navigation;
 
-            AddCommand = new Command(AddNote);
-            SaveCommand = new Command(SaveNote);
+            AddCommand = new Command(AddNote, () => CanOpen);
+            SaveCommand = new Command(SaveNote); //TODO think of can execute
             BackCommand = new Command(Back);
-            TapCommand = new Command(OnTap);
-            SwipeCommand = new Command(OnSwipe);
+            TapCommand = new Command(OnTap, (_) => CanOpen);
+            SwipeCommand = new Command(OnSwipe, (_) => CanOpen);
 
         }
         public ObservableCollection<NoteViewModel> ListNotesLeft { get; private set; }
@@ -125,16 +125,13 @@ namespace Notes.ViewModel
 
         private void OnTap(object obj)
         {
-            if (CanOpen)
+            CanOpen = false;
+
+            NoteViewModel selectedNote = obj as NoteViewModel;
+
+            if (selectedNote != null)
             {
-                CanOpen = false;
-
-                NoteViewModel selectedNote = obj as NoteViewModel;
-
-                if (selectedNote != null)
-                {
-                    SelectedNote = selectedNote;
-                }
+                SelectedNote = selectedNote;
             }
         }
 

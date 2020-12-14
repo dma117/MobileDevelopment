@@ -110,7 +110,11 @@ namespace Notes.ViewModel
         {
             string text = obj as string;
 
-            if (text != null)
+            if (text == null)
+            {
+                await Service.Share.ShareText(String.Empty);
+            }
+            else
             {
                 await Service.Share.ShareText(text);
             }

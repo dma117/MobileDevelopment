@@ -8,12 +8,10 @@
              NavigationPage.HasBackButton="False">
     <NavigationPage.TitleView>
         <StackLayout Orientation="Horizontal"
-                     HorizontalOptions="StartAndExpand"
-                     Padding="-18">
+                     HorizontalOptions="StartAndExpand">
             <Button Text="Back"
+                    ImageSource="back_icon.png"
                     TextColor="White"
-                    BackgroundColor="Transparent"
-                    ImageSource="back_button.png"
                     Command="{Binding ListNotesViewModel.SaveCommand}"
                     CommandParameter="{Binding}"/>
         </StackLayout>
@@ -41,12 +39,12 @@
                            FontFamily="Lobster"
                            HorizontalOptions="Start"
                            CharacterSpacing="1.5"
-                           Padding="3"/>
+                           Padding="10"/>
                     <Label Text="{Binding MessageSize}"
                            FontFamily="Lobster"
                            HorizontalOptions="EndAndExpand"
                            CharacterSpacing="1.5"
-                           Padding="3"/>
+                           Padding="10"/>
                 </StackLayout>
                 <Editor Text="{Binding Message}"
                         FontFamily="Caveat"
