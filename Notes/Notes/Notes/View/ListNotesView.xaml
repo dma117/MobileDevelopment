@@ -34,18 +34,17 @@
                             <BindableLayout.ItemTemplate>
                                 <DataTemplate>
                                     <StackLayout BackgroundColor="LightSkyBlue"
-                                                 Padding="10"
-                                                 Width="{Binding ListNotesViewModel.Width}">
+                                                 Padding="10">
                                         <StackLayout.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding ListNotesViewModel.TapCommand}"
                                                                   CommandParameter="{Binding}"/>
                                             <SwipeGestureRecognizer Direction="Left"
-                                                                    Threshold="10"
+                                                                    Threshold="5"
                                                                     Command="{Binding ListNotesViewModel.SwipeCommand}"
                                                                     CommandParameter="{Binding}"/>
-                                            <PanGestureRecognizer  />
                                         </StackLayout.GestureRecognizers>
                                         <Label Text="{Binding Message}"
+                                               CharacterSpacing="2"
                                                FontSize="Large"
                                                MaxLines="{Binding NoteMaxSize}"
                                                LineBreakMode="TailTruncation"
@@ -70,11 +69,12 @@
                                             <TapGestureRecognizer Command="{Binding ListNotesViewModel.TapCommand}"
                                                                   CommandParameter="{Binding}"/>
                                             <SwipeGestureRecognizer Direction="Right"
-                                                                    Threshold="10"
+                                                                    Threshold="5"
                                                                     Command="{Binding ListNotesViewModel.SwipeCommand}"
                                                                     CommandParameter="{Binding}"/>
                                         </StackLayout.GestureRecognizers>
                                         <Label Text="{Binding Message}"
+                                               CharacterSpacing="2"
                                                FontSize="Large"
                                                MaxLines="{Binding NoteMaxSize}"
                                                LineBreakMode="TailTruncation"
@@ -91,7 +91,6 @@
                     </Grid>
                 </ScrollView>
         </StackLayout>
-
             <Button Text="+"
                     HorizontalOptions="End"
                     VerticalOptions="EndAndExpand"
@@ -101,7 +100,6 @@
                     CornerRadius="40"
                     HeightRequest="80"
                     WidthRequest="80"
-                    IsEnabled="{Binding CanOpen}"
                     Command="{Binding AddCommand}"/>
         </Grid>
     </ContentPage.Content>

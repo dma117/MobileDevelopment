@@ -9,48 +9,51 @@
     <NavigationPage.TitleView>
         <StackLayout Orientation="Horizontal"
                      HorizontalOptions="StartAndExpand">
-            <Button Text="Back"
-                    ImageSource="back_icon.png"
-                    TextColor="White"
-                    Command="{Binding ListNotesViewModel.SaveCommand}"
+            <Button Text="go back"
+                    BackgroundColor="Beige"
+                    WidthRequest="60"
+                    HeightRequest="30"
+                    Padding="-14"
+                    FontSize="12"
+                    Command="{Binding SaveCommand}"
                     CommandParameter="{Binding}"/>
         </StackLayout>
     </NavigationPage.TitleView>
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="OK"
+        <ToolbarItem Text="Ok"
+                     IconImageSource="ok_icon.png"
                      Priority="0"
                      Order="Primary"
-                     IconImageSource="back.png"
-                     Command="{Binding ListNotesViewModel.SaveCommand}"
+                     Command="{Binding SaveCommand}"
                      CommandParameter="{Binding}"/>
         <ToolbarItem Text="Share"
-                     Priority="1"
                      Order="Secondary"
-                     IconImageSource="back.png"
+                     Priority="0"
+                     IconImageSource="share_icon.png"
                      Command="{Binding ShareCommand}"
                      CommandParameter="{Binding Message}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
-            <StackLayout BackgroundColor="Beige">
+            <StackLayout BackgroundColor="Beige"
+                         Padding="10">
                 <StackLayout Orientation="Horizontal"
                              VerticalOptions="Center">
                     <Label Text="{Binding Date}"
                            FontFamily="Lobster"
                            HorizontalOptions="Start"
-                           CharacterSpacing="1.5"
-                           Padding="10"/>
+                           CharacterSpacing="1.5"/>
                     <Label Text="{Binding MessageSize}"
                            FontFamily="Lobster"
                            HorizontalOptions="EndAndExpand"
-                           CharacterSpacing="1.5"
-                           Padding="10"/>
+                           CharacterSpacing="1.5"/>
                 </StackLayout>
                 <Editor Text="{Binding Message}"
                         FontFamily="Caveat"
                         FontSize="25"
                         HeightRequest="750"
-                        IsSpellCheckEnabled="False"/>
+                        IsSpellCheckEnabled="False"
+                        CharacterSpacing="2"/>
             </StackLayout>
             <StackLayout Padding="10"
                          WidthRequest="193.36"
@@ -58,6 +61,7 @@
                          Opacity="0"
                          InputTransparent="True">
                 <Label Text="{Binding Message}"
+                       CharacterSpacing="2"
                        FontSize="Large"
                        MaxLines="{Binding NoteMaxSize}"
                        LineBreakMode="TailTruncation"

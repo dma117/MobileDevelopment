@@ -17,18 +17,22 @@ namespace Notes.ViewModel
         [JsonProperty]
         private Note _note;
         private int _noteMaxSize;
+        private bool _canOpen;
 
         public NoteViewModel()
         {
             _note = new Note();
             _noteMaxSize = 6;
+            _canOpen = true;
 
-            ShareCommand = new Command(Share);
+            ShareCommand = new Command(Share, (_) => CanOpen);
+            SaveCommand = new Command(SaveNote, (_) => CanOpen);
         }
 
         public double Height { get; set; }
 
         public ICommand ShareCommand { get; private set; }
+        public ICommand SaveCommand { get; private set; }
 
         [JsonIgnore]
         public ListNotesViewModel ListNotesViewModel
@@ -106,18 +110,45 @@ namespace Notes.ViewModel
             }
         }
 
+        [JsonIgnore]
+        public bool CanOpen
+        {
+            get => _canOpen;
+
+            set
+            {
+                if (value != _canOpen)
+                {
+                    _canOpen = value;
+                    (SaveCommand as Command)?.ChangeCanExecute();
+                    (ShareCommand as Command)?.ChangeCanExecute();
+                }
+            }
+        }
+
+
         public async void Share(object obj)
         {
+            CanOpen = false;
+
             string text = obj as string;
 
             if (text == null)
             {
-                await Service.Share.ShareText(String.Empty);
+                await Service.Share.Instance.ShareText(String.Empty);
             }
             else
             {
-                await Service.Share.ShareText(text);
+                await Service.Share.Instance.ShareText(text);
             }
+
+            CanOpen = true;
+        }
+
+        public void SaveNote(object obj)
+        {
+            CanOpen = false;
+            _listNotesViewModel.SaveCommand.Execute(obj);
         }
 
         public bool Changed()
@@ -133,6 +164,11 @@ namespace Notes.ViewModel
             return _note.MessageSize == 0;
         }
 
+        public void Reset()
+        {
+            CanOpen = true;
+        }
+
         private void OnPropertyChanged([CallerMemberName] string propName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
@@ -145,7 +181,7 @@ namespace Notes.ViewModel
 
         public int CompareTo(NoteViewModel other)
         {
-            if (other == null) //TODO should we check this == null?
+            if (other == null)
             {
                 throw new NullReferenceException();
             }

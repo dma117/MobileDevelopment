@@ -26,10 +26,10 @@ namespace Notes.ViewModel
             Navigation = navigation;
 
             AddCommand = new Command(AddNote, () => CanOpen);
-            SaveCommand = new Command(SaveNote); //TODO think of can execute
+            SaveCommand = new Command(SaveNote);
             BackCommand = new Command(Back);
             TapCommand = new Command(OnTap, (_) => CanOpen);
-            SwipeCommand = new Command(OnSwipe, (_) => CanOpen);
+            SwipeCommand = new Command(OnSwipe);
 
         }
         public ObservableCollection<NoteViewModel> ListNotesLeft { get; private set; }
@@ -75,9 +75,10 @@ namespace Notes.ViewModel
                 }
                 else
                 {
-                    if (!_notes.Contains(noteViewModel)) //TODO refactor code: add new note to NoteViewModel ?
+                    if (!_notes.Contains(noteViewModel))
                     {
                         _notes.Add(noteViewModel);
+                        noteViewModel.Date = DateTime.Now;
                     }
                     if (noteViewModel.Changed())
                     {
@@ -141,6 +142,7 @@ namespace Notes.ViewModel
                         "Click ok to delete the note", "OK", "Cancel"))
             {
                 DeleteNote(obj);
+                Saver.Instance.SaveDataAsync(_notes);
             }
         }
 
@@ -166,7 +168,8 @@ namespace Notes.ViewModel
                 {
                     _canOpen = value;
 
-                    OnPropertyChanged();
+                    (AddCommand as Command)?.ChangeCanExecute();
+                    (TapCommand as Command)?.ChangeCanExecute();
                 }
             }
         }
@@ -180,6 +183,7 @@ namespace Notes.ViewModel
                 if (value != _selectedNote)
                 {
                     NoteViewModel tmpNote = value;
+                    tmpNote.Reset();
                     _selectedNote = null;
 
                     OnPropertyChanged();

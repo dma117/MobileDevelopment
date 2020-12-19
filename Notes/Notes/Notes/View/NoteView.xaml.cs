@@ -18,10 +18,6 @@ namespace Notes.View
             InitializeComponent();
             BindingContext = noteViewModel;
         }
-        /*protected override void OnDisappearing()
-        {
-            (BindingContext as NoteViewModel)?.ListNotesViewModel.SaveCommand.Execute(BindingContext);
-        }*/
 
         protected override bool OnBackButtonPressed()
         {

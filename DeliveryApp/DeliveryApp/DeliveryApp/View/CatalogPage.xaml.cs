@@ -14,7 +14,6 @@ namespace DeliveryApp.View
 
             ProductsPicker.ItemsSource = ControllerSingleton.Instance.GetProductsForCatalog();
             SetStartingItemInPicker();
-            Disappearing += CatalogPage_Disappearing;
         }
 
         private void CatalogPage_Disappearing(object sender, EventArgs e)
