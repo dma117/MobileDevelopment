@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using WeatherApp.ViewModels;
 
 namespace WeatherApp.Views
 {
@@ -15,6 +15,7 @@ namespace WeatherApp.Views
         public WeatherPageView()
         {
             InitializeComponent();
+            BindingContext = new WeatherInfoViewModel();
         }
     }
 }

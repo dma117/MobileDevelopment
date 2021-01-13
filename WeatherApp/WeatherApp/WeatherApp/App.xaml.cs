@@ -1,6 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using WeatherApp.Service;
 
 namespace WeatherApp
 {
@@ -14,7 +15,7 @@ namespace WeatherApp
         }
 
         protected override void OnStart()
-        {
+        {  
         }
 
         protected override void OnSleep()

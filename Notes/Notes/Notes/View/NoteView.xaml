@@ -49,29 +49,35 @@
                            CharacterSpacing="1.5"/>
                 </StackLayout>
                 <Editor Text="{Binding Message}"
+                        HeightRequest="300"
                         FontFamily="Caveat"
                         FontSize="25"
-                        HeightRequest="750"
                         IsSpellCheckEnabled="False"
                         CharacterSpacing="2"/>
             </StackLayout>
-            <StackLayout Padding="10"
-                         WidthRequest="193.36"
-                         Height="{Binding Height, Mode=OneWayToSource}"
-                         Opacity="0"
-                         InputTransparent="True">
-                <Label Text="{Binding Message}"
-                       CharacterSpacing="2"
-                       FontSize="Large"
-                       MaxLines="{Binding NoteMaxSize}"
-                       LineBreakMode="TailTruncation"
-                       FontFamily="Caveat"/>
-                <Label Text="{Binding Date}"
-                       FontSize="Small"
-                       FontFamily="Lobster"
-                       CharacterSpacing="1.5"
-                       Padding="3"/>
-            </StackLayout>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <StackLayout Padding="10"
+                             Grid.Column="0"
+                             InputTransparent="True" 
+                             Opacity="0"
+                             Height="{Binding Height, Mode=OneWayToSource}">
+                    <Label Text="{Binding Message}"
+                           CharacterSpacing="2"
+                           FontSize="Large"
+                           MaxLines="{Binding NoteMaxSize}"
+                           LineBreakMode="TailTruncation"
+                           FontFamily="Caveat"/>
+                    <Label Text="{Binding Date}"
+                           FontSize="Small"
+                           FontFamily="Lobster"
+                           CharacterSpacing="1.5"
+                           Padding="3"/>
+                </StackLayout>
+            </Grid>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

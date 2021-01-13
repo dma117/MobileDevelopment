@@ -7,9 +7,43 @@
              x:Class="WeatherApp.Views.WeatherPageView">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <StackLayout BackgroundColor="Bisque"
+                         Padding="10">
+                <Label Text="{Binding Temperature}"
+                       FontSize="Header"
+                       HorizontalOptions="Center"
+                       VerticalOptions="CenterAndExpand"/>
+                <Label Text="{Binding WeatherDescription}"
+                       FontSize="Title"
+                       HorizontalOptions="Center"/>
+                <Label Text="20.10.2020"
+                       FontSize="Title"
+                       HorizontalOptions="Center"/>
+            </StackLayout>
+            <StackLayout BackgroundColor="Aqua"
+                         Orientation="Horizontal"
+                         Margin="30,0,30,0">
+                <StackLayout BackgroundColor="Yellow"
+                             HorizontalOptions="Start">
+                    <StackLayout Orientation="Horizontal">
+                        <Image Source="cloud_icon.png"/>
+                        <Label Text="NNW"
+                               VerticalOptions="Center"/>
+                    </StackLayout>
+                    <Label Text="{Binding WindSpeed}"
+                           HorizontalOptions="Center"/>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal"
+                             HorizontalOptions="CenterAndExpand">
+                    <Image Source="cloud_icon.png"/>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal"
+                             BackgroundColor="LightGreen"
+                             HorizontalOptions="EndAndExpand">
+                    <Label Text="{Binding Humidity}"
+                           VerticalOptions="Center"/>
+                </StackLayout>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
