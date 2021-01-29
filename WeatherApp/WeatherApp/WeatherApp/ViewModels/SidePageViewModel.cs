@@ -11,9 +11,11 @@ namespace WeatherApp.ViewModels
     public class SidePageViewModel
     {
         private WeatherPageViewModel _weatherPageViewModel;
+        private LocationsViewModel _locationsViewModel;
         public SidePageViewModel(WeatherPageViewModel weatherPageViewModel)
         {
             _weatherPageViewModel = weatherPageViewModel;
+            _locationsViewModel = new LocationsViewModel();
 
             ChooseTheCityCommand = new Command(ChooseTheCity);
             WeatherCommand = new Command(ShowWeather);
@@ -26,11 +28,18 @@ namespace WeatherApp.ViewModels
 
         private void ChooseTheCity()
         {
-            MasterDetailPage.Detail = new NavigationPage(new LocationsView(new LocationsViewModel()));
+            _locationsViewModel.Text = String.Empty;
+            MasterDetailPage.Detail = new NavigationPage(new LocationsView(_locationsViewModel));
         }
 
         private void ShowWeather()
         {
+            if (_locationsViewModel.ChosenLocation != null)
+            {
+                _weatherPageViewModel.LocationName = _locationsViewModel.ChosenLocation;
+                _weatherPageViewModel.SetWeatherInfoAsync();
+            }
+
             MasterDetailPage.Detail = new NavigationPage(new WeatherPageView(_weatherPageViewModel));
         }
     }

@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WeatherApp.Views.HistoryView">
+    <ContentPage.Content>
+        <StackLayout>
+            <ListView ItemsSource="{Binding LocationsHistory}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout>
+                                <Label Text="{Binding}"
+                                       FontSize="Large"
+                                       Padding="3"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button Text="+"
+                    HorizontalOptions="End"
+                    VerticalOptions="EndAndExpand"
+                    Margin="20"
+                    FontSize="40"
+                    BackgroundColor="Orchid"
+                    CornerRadius="40"
+                    HeightRequest="80"
+                    WidthRequest="80"
+                    Command="{Binding AddLocationCommand}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
