@@ -16,27 +16,25 @@ namespace WeatherApp.ViewModels
         private List<string> _currentLocations;
         private string _typedText;
 
-        public LocationsViewModel()
+        public LocationsViewModel(HistoryLocationsViewModel historyLocationsViewModel)
         {
             _locations = new List<string>();
             _currentLocations = new List<string>();
             _typedText = String.Empty;
-            LoadLocations();
+            HistoryLocationsViewModel = historyLocationsViewModel;
+            SetLocations();
 
             SearchLocations(_typedText);
 
             SearchCommand = new Command(SearchLocations);
-            ChooseLocationCommand = new Command(SaveChosenLocation);
         }
-
-        public string ChosenLocation { get; private set; } 
+        public HistoryLocationsViewModel HistoryLocationsViewModel { get; set; }
 
         public ICommand SearchCommand { get; private set; }
-        public ICommand ChooseLocationCommand { get; private set; }
 
-        private void LoadLocations()
+        private void SetLocations()
         {
-            Loader.GetLocations().ForEach(x => _locations.Add(x.name));
+            _locations = LocationsLoader.Instance.LocationsNames;
         }
 
         public List<string> Locations
@@ -70,16 +68,6 @@ namespace WeatherApp.ViewModels
             Task.Run(() => {
                 Locations = _locations.Where(x => x.StartsWith(location)).ToList();
             });
-        }
-
-        private void SaveChosenLocation(object obj)
-        {
-            var location = obj as string;
-
-            if (location == null)
-                return;
-
-            ChosenLocation = location;
         }
     }
 }

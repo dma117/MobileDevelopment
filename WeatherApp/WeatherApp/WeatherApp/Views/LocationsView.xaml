@@ -17,7 +17,7 @@
                             <StackLayout>
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding Source={x:Reference locationsPage},
-                                                                        Path=BindingContext.ChooseLocationCommand}"
+                                                                        Path=BindingContext.HistoryLocationsViewModel.ChooseLocationCommand}"
                                                           CommandParameter="{Binding}"/>
                                 </StackLayout.GestureRecognizers>
                                 <Label Text="{Binding}"

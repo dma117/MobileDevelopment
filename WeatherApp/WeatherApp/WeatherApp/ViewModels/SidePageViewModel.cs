@@ -5,17 +5,23 @@ using System.Windows.Input;
 using WeatherApp.Views;
 using Xamarin.Forms;
 using WeatherApp.ViewModels;
+using WeatherApp.Service;
+using System.Threading.Tasks;
 
 namespace WeatherApp.ViewModels
 {
     public class SidePageViewModel
     {
         private WeatherPageViewModel _weatherPageViewModel;
-        private LocationsViewModel _locationsViewModel;
+        private HistoryLocationsViewModel _historyLocationsViewModel;
         public SidePageViewModel(WeatherPageViewModel weatherPageViewModel)
         {
             _weatherPageViewModel = weatherPageViewModel;
-            _locationsViewModel = new LocationsViewModel();
+            _historyLocationsViewModel = new HistoryLocationsViewModel();
+
+            Task.Run(() => {
+                LocationsLoader.Instance.LoadLocations();
+            });
 
             ChooseTheCityCommand = new Command(ChooseTheCity);
             WeatherCommand = new Command(ShowWeather);
@@ -28,15 +34,14 @@ namespace WeatherApp.ViewModels
 
         private void ChooseTheCity()
         {
-            _locationsViewModel.Text = String.Empty;
-            MasterDetailPage.Detail = new NavigationPage(new LocationsView(_locationsViewModel));
+            MasterDetailPage.Detail = new NavigationPage(new HistoryView(_historyLocationsViewModel));
         }
 
         private void ShowWeather()
         {
-            if (_locationsViewModel.ChosenLocation != null)
+            if (_historyLocationsViewModel.ChosenLocation != null)
             {
-                _weatherPageViewModel.LocationName = _locationsViewModel.ChosenLocation;
+                _weatherPageViewModel.LocationName = _historyLocationsViewModel.ChosenLocation;
                 _weatherPageViewModel.SetWeatherInfoAsync();
             }
 
