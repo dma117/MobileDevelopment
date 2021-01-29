@@ -16,7 +16,7 @@
                 <Label Text="{Binding WeatherDescription}"
                        FontSize="Title"
                        HorizontalOptions="Center"/>
-                <Label Text="20.10.2020"
+                <Label Text="{Binding Date}"
                        FontSize="Title"
                        HorizontalOptions="Center"/>
             </StackLayout>

@@ -20,7 +20,7 @@ namespace WeatherApp
             InitializeComponent();
 
             Master = new SidePageView();
-            Detail = new NavigationPage(new WeatherPageView());
+            Detail = new NavigationPage(new WeatherPageView(new WeatherInfoViewModel()));
         }
     }
 }

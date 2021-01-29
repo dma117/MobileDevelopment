@@ -12,10 +12,10 @@ namespace WeatherApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class WeatherPageView : ContentPage
     {
-        public WeatherPageView()
+        public WeatherPageView(WeatherInfoViewModel weatherInfoViewModel)
         {
             InitializeComponent();
-            BindingContext = new WeatherInfoViewModel();
+            BindingContext = weatherInfoViewModel;
         }
     }
 }

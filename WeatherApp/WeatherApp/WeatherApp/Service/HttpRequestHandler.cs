@@ -18,7 +18,7 @@ namespace WeatherApp.Service
             // Call asynchronous network methods in a try/catch block to handle exceptions.
             try
             {
-                HttpResponseMessage response = await client.GetAsync($"https://api.openweathermap.org/data/2.5/weather?q=Vladivostok&appid=f8a6eb17aa6438716b45950fa665d65f");
+                HttpResponseMessage response = await client.GetAsync($"https://api.openweathermap.org/data/2.5/weather?q=Vladivostok&appid=f8a6eb17aa6438716b45950fa665d65f&units=metric");
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
 
