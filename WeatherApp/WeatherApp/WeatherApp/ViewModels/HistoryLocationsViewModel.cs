@@ -1,33 +1,45 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 using WeatherApp.Views;
 using System.Collections.ObjectModel;
 using System.Linq;
+using WeatherApp.Service;
+
 
 namespace WeatherApp.ViewModels
 {
     public class HistoryLocationsViewModel : BaseViewModel
     {
         private string _currentLocation;
+        private ObservableCollection<string> _locationsHistory;
 
         public HistoryLocationsViewModel()
         {
-            LocationsHistory = new ObservableCollection<string>();
             _currentLocation = String.Empty;
-
+            _locationsHistory = new ObservableCollection<string>();
+            
+            LoadHistoryLocations();
+            
             AddLocationCommand = new Command(OpenLocations);
             ChooseLocationCommand = new Command(ChooseLocation);
         }
-
-        public ObservableCollection<String> LocationsHistory { get; set; }
 
         public ICommand AddLocationCommand { get; private set; }
         public ICommand ChooseLocationCommand { get; private set; }
 
         public INavigation Navigation { get; set; }
+
+        public ObservableCollection<String> LocationsHistory
+        {
+            get => _locationsHistory;
+
+            set
+            {
+                _locationsHistory = value;
+                OnPropertyChanged();
+            }
+        }
 
         public string ChosenLocation
         {
@@ -38,6 +50,11 @@ namespace WeatherApp.ViewModels
                 _currentLocation = value;
                 SaveChosenLocation();
             }
+        }
+
+        private void LoadHistoryLocations()
+        {
+            LocationsHistory = new ObservableCollection<string>(Saver.Instance.GetHistory());
         }
 
         private void OpenLocations()
@@ -63,6 +80,7 @@ namespace WeatherApp.ViewModels
             if (LocationsHistory.All(x => x != _currentLocation))
             {
                 LocationsHistory.Add(_currentLocation);
+                Saver.Instance.SerializeHistory(LocationsHistory);
             }
         }
     }
