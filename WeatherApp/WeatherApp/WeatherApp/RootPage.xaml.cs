@@ -19,8 +19,10 @@ namespace WeatherApp
         {
             InitializeComponent();
 
-            Master = new SidePageView();
-            Detail = new NavigationPage(new WeatherPageView(new WeatherInfoViewModel()));
+            var weatherPageViewModel = new WeatherPageViewModel();
+
+            Detail = new NavigationPage(new WeatherPageView(weatherPageViewModel));
+            Master = new SidePageView(new SidePageViewModel(weatherPageViewModel) { MasterDetailPage = this });
         }
     }
 }

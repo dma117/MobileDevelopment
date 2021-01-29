@@ -1,21 +1,27 @@
 ﻿using System;
 using WeatherApp.Models;
 using WeatherApp.Service;
+using Xamarin.Forms;
 
 namespace WeatherApp.ViewModels
 {
-    public class WeatherInfoViewModel : BaseViewModel
+    public class WeatherPageViewModel : BaseViewModel
     {
         private WeatherInfo _weatherInfo;
+        private string _location;
 
-        public WeatherInfoViewModel()
+        public WeatherPageViewModel()
         {
+            _location = "Vladivostok";
+
             SetWeatherInfoAsync();
         }
 
+        public INavigation Navigation { get; set; }
+
         public async void SetWeatherInfoAsync() 
         {
-            _weatherInfo = await HttpRequestHandler.GetModelAsync();
+            _weatherInfo = await HttpRequestHandler.GetModelAsync(LocationName);
 
             Temperature = (int)_weatherInfo.main.temp;
             WindSpeed = _weatherInfo.wind.speed;
@@ -75,6 +81,17 @@ namespace WeatherApp.ViewModels
             set
             {
                 _weatherInfo.date = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string LocationName
+        {
+            get => _location;
+
+            set
+            {
+                _location = value;
                 OnPropertyChanged();
             }
         }

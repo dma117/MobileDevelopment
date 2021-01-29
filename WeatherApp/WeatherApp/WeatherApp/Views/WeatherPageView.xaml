@@ -5,6 +5,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="WeatherApp.Views.WeatherPageView">
+    <NavigationPage.TitleView>
+        <StackLayout>
+            <Label Text="{Binding LocationName}"
+                   FontSize="Large"/>
+        </StackLayout>
+    </NavigationPage.TitleView>
     <ContentPage.Content>
         <StackLayout>
             <StackLayout BackgroundColor="Bisque"
