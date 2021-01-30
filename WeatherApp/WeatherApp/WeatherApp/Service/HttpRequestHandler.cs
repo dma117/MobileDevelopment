@@ -30,7 +30,7 @@ namespace WeatherApp.Service
             }
         }
 
-        public static async Task<ForecastInfo> GetForecastAsync(string cityName)
+        public static async Task<ForecastInfo> GetForecastInfoAsync(string cityName)
         {
             try
             {

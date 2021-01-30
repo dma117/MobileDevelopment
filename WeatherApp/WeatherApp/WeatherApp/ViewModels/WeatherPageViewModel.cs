@@ -4,16 +4,19 @@ using WeatherApp.Service;
 using Xamarin.Forms;
 using WeatherApp.Helpers;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace WeatherApp.ViewModels
 {
     public class WeatherPageViewModel : BaseViewModel
     {
         private WeatherInfo _weatherInfo;
-        private ForecastInfo _forecastInfo;
+        private List<Forecast> _forecast;
+        private readonly int _days = 7;
 
         public WeatherPageViewModel()
         {
+            _forecast = new List<Forecast>();
             SetWeatherInfoAsync();
         }
 
@@ -22,13 +25,6 @@ namespace WeatherApp.ViewModels
         public async void SetWeatherInfoAsync() 
         {
             _weatherInfo = await Saver.Instance.GetCurrentWeather();
-
-           // _weatherInfo = await HttpRequestHandler.GetModelAsync("Vladivostok");
-            /*// _weatherInfo.location = "Vladivostok";
-            _weatherInfo.date = DateTime.UtcNow.AddSeconds(_weatherInfo.timezone).ToString("d");
-
-            Saver.Instance.SerializeCurrentWeather(_weatherInfo);*/
-
 
             if (HttpRequestHandler.InternetConnected())
             {
@@ -45,9 +41,27 @@ namespace WeatherApp.ViewModels
         private async void SetWeatherByInternetConnection(string location)
         {
             _weatherInfo = await HttpRequestHandler.GetModelAsync(location);
-            // _weatherInfo.location = "Vladivostok";
             _weatherInfo.date = DateTime.UtcNow.AddSeconds(_weatherInfo.timezone).ToString("d");
             Saver.Instance.SerializeCurrentWeather(_weatherInfo);
+            
+            var list = (await HttpRequestHandler.GetForecastInfoAsync(LocationName)).list;
+            _forecast.Clear();
+
+            for (int i = 1; i < list.Count; i++)
+            {
+                var date = list[i].dt_txt;
+
+                if (date > DateTime.Now && date.Hour == 0 && date.Minute == 0 && date.Second == 0)
+                {
+                    _forecast.Add(new Forecast()
+                    {
+                        Day = list[i].dt_txt.ToString("dddd"),
+                        Date = list[i].dt_txt.ToString("dd MMM"),
+                        Icon = $"https://openweathermap.org/img/wn/{ list[i].weather[0].icon}@2x.png",
+                        Temp = (int)Math.Round(list[i].main.temp),
+                    });
+                }
+            }
         }
 
         private void UpdateProperties()
@@ -58,6 +72,7 @@ namespace WeatherApp.ViewModels
             WeatherDescription = _weatherInfo.weather[0].description;
             Date = _weatherInfo.date;
             LocationName = _weatherInfo.name;
+            Forecast = _forecast;
         }
 
         public bool ChangeCurrentLocation(string location)
@@ -74,6 +89,17 @@ namespace WeatherApp.ViewModels
             //_weatherInfo.location = location;
 
             return true;
+        }
+
+        public List<Forecast> Forecast
+        {
+            get => _forecast;
+
+            set
+            {
+                _forecast = value;
+                OnPropertyChanged();
+            }
         }
 
         public int Temperature

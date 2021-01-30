@@ -50,6 +50,35 @@
                            VerticalOptions="Center"/>
                 </StackLayout>
             </StackLayout>
+            <Frame>
+                <Label Text="Forecast"
+                       HorizontalTextAlignment="Center"
+                       FontSize="Large"/>
+            </Frame>
+            <ListView ItemsSource="{Binding Forecast}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout>
+                                <Grid HorizontalOptions="CenterAndExpand">
+                                    <Label Text="{Binding Day}"
+                                           HorizontalTextAlignment="Center"
+                                           Grid.Column="0"/>
+                                    <Label Text="{Binding Date}"
+                                           HorizontalTextAlignment="Center"
+                                           Grid.Column="1"/>
+                                    <Image Source="{Binding Icon}"
+                                           HorizontalOptions="Center"
+                                           Grid.Column="2"/>
+                                    <Label Text="{Binding Temp}"
+                                           HorizontalTextAlignment="Center"
+                                           Grid.Column="3"/>
+                                </Grid>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
