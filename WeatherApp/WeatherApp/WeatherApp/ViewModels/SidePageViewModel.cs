@@ -34,6 +34,7 @@ namespace WeatherApp.ViewModels
 
         private void ChooseTheCity()
         {
+            _historyLocationsViewModel.CheckCurrentLocation();
             MasterDetailPage.Detail = new NavigationPage(new HistoryView(_historyLocationsViewModel));
         }
 

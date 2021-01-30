@@ -5,22 +5,23 @@ using WeatherApp.Views;
 using System.Collections.ObjectModel;
 using System.Linq;
 using WeatherApp.Service;
+using WeatherApp.Models;
 
 
 namespace WeatherApp.ViewModels
 {
     public class HistoryLocationsViewModel : BaseViewModel
     {
-        private string _currentLocation;
-        private ObservableCollection<string> _locationsHistory;
+        private Location _currentLocation;
+        private ObservableCollection<Location> _locationsHistory;
         private WeatherPageViewModel _weatherPageViewModel;
 
         public HistoryLocationsViewModel(WeatherPageViewModel weatherPageViewModel)
         {
-            _currentLocation = String.Empty;
+            _currentLocation = new Location();
             _weatherPageViewModel = weatherPageViewModel;
-            _locationsHistory = new ObservableCollection<string>();
-            
+            _locationsHistory = new ObservableCollection<Location>();
+
             LoadHistoryLocations();
             
             AddLocationCommand = new Command(OpenLocations);
@@ -32,7 +33,7 @@ namespace WeatherApp.ViewModels
 
         public INavigation Navigation { get; set; }
 
-        public ObservableCollection<String> LocationsHistory
+        public ObservableCollection<Location> LocationsHistory
         {
             get => _locationsHistory;
 
@@ -43,7 +44,7 @@ namespace WeatherApp.ViewModels
             }
         }
 
-        public string ChosenLocation
+        public Location ChosenLocation
         {
             get => _currentLocation;
 
@@ -51,23 +52,23 @@ namespace WeatherApp.ViewModels
             {
                 if (value != _currentLocation)
                 {
-                    if (_weatherPageViewModel.ChangeCurrentLocation(value))
+                    if (_weatherPageViewModel.ChangeCurrentLocation(value.Name))
                     {
                         _currentLocation = value;
-                        Application.Current.MainPage.DisplayAlert("Location", "You've successfully chosen " + _currentLocation, "Ok");
+                        Application.Current.MainPage.DisplayAlert("Location", "You've successfully chosen " + _currentLocation.Name, "Ok");
                         SaveChosenLocation();
                     }
                 }
                 else
                 {
-                    Application.Current.MainPage.DisplayAlert("Location", "Oops, " + _currentLocation + " is your current location", "Ok");
+                    Application.Current.MainPage.DisplayAlert("Location", "Oops, " + _currentLocation.Name + " is your current location", "Ok");
                 }
             }
         }
 
         private void LoadHistoryLocations()
         {
-            LocationsHistory = new ObservableCollection<string>(Saver.Instance.GetHistory());
+            LocationsHistory = new ObservableCollection<Location>(Saver.Instance.GetHistory());
         }
 
         private void OpenLocations()
@@ -77,7 +78,7 @@ namespace WeatherApp.ViewModels
 
         private void ChooseLocation(object obj)
         {
-            var location = obj as string;
+            var location = obj as Location;
 
             if (location == null)
                 return;
@@ -92,6 +93,15 @@ namespace WeatherApp.ViewModels
                 LocationsHistory.Add(_currentLocation);
                 Saver.Instance.SerializeHistory(LocationsHistory);
             }
+        }
+
+        public void CheckCurrentLocation()
+        {
+            _currentLocation = new Location()
+            {
+                Name = _weatherPageViewModel.LocationName,
+                Country = _weatherPageViewModel.Country
+            };
         }
     }
 }

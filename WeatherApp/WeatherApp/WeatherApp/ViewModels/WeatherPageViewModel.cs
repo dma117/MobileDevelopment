@@ -10,6 +10,7 @@ namespace WeatherApp.ViewModels
     public class WeatherPageViewModel : BaseViewModel
     {
         private WeatherInfo _weatherInfo;
+        private ForecastInfo _forecastInfo;
 
         public WeatherPageViewModel()
         {
@@ -132,11 +133,22 @@ namespace WeatherApp.ViewModels
 
         public string LocationName
         {
-            get => _weatherInfo?.name ?? "ddff";
+            get => _weatherInfo?.name ?? String.Empty;
 
             set
             {
                 _weatherInfo.name = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Country
+        {
+            get => _weatherInfo?.sys?.country ?? String.Empty;
+
+            set
+            {
+                _weatherInfo.sys.country = value;
                 OnPropertyChanged();
             }
         }

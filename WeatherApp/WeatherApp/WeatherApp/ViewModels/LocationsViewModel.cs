@@ -5,19 +5,21 @@ using Xamarin.Forms;
 using WeatherApp.Service;
 using System.Linq;
 using System.Threading.Tasks;
+using WeatherApp.Models;
+
 
 namespace WeatherApp.ViewModels
 {
     public class LocationsViewModel : BaseViewModel
     {
-        private List<string> _locations;
-        private List<string> _currentLocations;
+        private List<Location> _locations;
+        private List<Location> _currentLocations;
         private string _typedText;
 
         public LocationsViewModel(HistoryLocationsViewModel historyLocationsViewModel)
         {
-            _locations = new List<string>();
-            _currentLocations = new List<string>();
+            _locations = new List<Location>();
+            _currentLocations = new List<Location>();
             _typedText = String.Empty;
             HistoryLocationsViewModel = historyLocationsViewModel;
             SetLocations();
@@ -32,10 +34,10 @@ namespace WeatherApp.ViewModels
 
         private void SetLocations()
         {
-            _locations = LocationsLoader.Instance.LocationsNames;
+            _locations = LocationsLoader.Instance.AllLocations;
         }
 
-        public List<string> Locations
+        public List<Location> Locations
         {
             get => _currentLocations;
 
@@ -65,7 +67,7 @@ namespace WeatherApp.ViewModels
                 return;
 
             Task.Run(() => {
-                Locations = _locations.Where(x => x.ToUpper().StartsWith(location.ToUpper())).ToList();
+                Locations = _locations.Where(x => x.Name.ToUpper().StartsWith(location.ToUpper())).ToList();
             });
         }
     }

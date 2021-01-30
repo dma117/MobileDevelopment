@@ -9,13 +9,16 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout>
+                            <StackLayout Orientation="Horizontal">
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding Source={x:Reference historyPage},
                                                                         Path=BindingContext.ChooseLocationCommand}"
                                                           CommandParameter="{Binding}"/>
                                 </StackLayout.GestureRecognizers>
-                                <Label Text="{Binding}"
+                                <Label Text="{Binding Name}"
+                                       FontSize="Large"
+                                       Padding="3"/>
+                                <Label Text="{Binding Country}"
                                        FontSize="Large"
                                        Padding="3"/>
                             </StackLayout>

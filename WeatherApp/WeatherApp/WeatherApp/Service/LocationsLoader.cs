@@ -9,15 +9,17 @@ using System.Linq;
 
 namespace WeatherApp.Service
 {
+
     public class LocationsLoader
     {
         private static LocationsLoader _instance;
 
         private LocationsLoader() 
         {
-            AllLocations = new List<CitiesInfo>();
-            LocationsNames = new List<string>();
-            LocationsCountries = new List<string>();
+            LocationDescriptions = new List<CitiesInfo>();
+            //LocationsNames = new List<string>();
+            //LocationsCountries = new List<string>();
+            AllLocations = new List<Location>();
         }
        
         public static LocationsLoader Instance
@@ -25,18 +27,23 @@ namespace WeatherApp.Service
             get => _instance == null ? _instance = new LocationsLoader() : _instance;
         }
 
-        public List<CitiesInfo> AllLocations;
-        public List<string> LocationsNames;
-        public List<string> LocationsCountries;
+        public List<CitiesInfo> LocationDescriptions;
+        //public List<string> LocationsNames;
+        //public List<string> LocationsCountries;
+
+        public List<Location> AllLocations;
 
         public void LoadLocations()
         {
-            AllLocations = GetLocations();
+            LocationDescriptions = GetLocations();
 
-            foreach (var element in AllLocations)
+            foreach (var element in LocationDescriptions)
             {
-                LocationsNames.Add(element.name);
-                LocationsCountries.Add(element.country);
+                AllLocations.Add(new Location() 
+                { 
+                    Name = element.name, 
+                    Country = element.country 
+                });
             }
         }
 

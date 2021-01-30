@@ -16,7 +16,6 @@ namespace WeatherApp.Service
 
         public static async Task<WeatherInfo> GetModelAsync(string cityName)
         {
-            // Call asynchronous network methods in a try/catch block to handle exceptions.
             try
             {
                 HttpResponseMessage response = await client.GetAsync($"https://api.openweathermap.org/data/2.5/weather?q={cityName}&appid=f8a6eb17aa6438716b45950fa665d65f&units=metric");
@@ -24,9 +23,22 @@ namespace WeatherApp.Service
                 string responseBody = await response.Content.ReadAsStringAsync();
 
                 return JsonConvert.DeserializeObject<WeatherInfo>(responseBody);
+            }
+            catch (HttpRequestException e)
+            {
+                throw new Exception();
+            }
+        }
 
-                // Above three lines can be replaced with new helper method below
-                // string responseBody = await client.GetStringAsync(uri);
+        public static async Task<ForecastInfo> GetForecastAsync(string cityName)
+        {
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync($"https://api.openweathermap.org/data/2.5/forecast?q={cityName}&appid=f8a6eb17aa6438716b45950fa665d65f&units=metric");
+                response.EnsureSuccessStatusCode();
+                string responseBody = await response.Content.ReadAsStringAsync();
+
+                return JsonConvert.DeserializeObject<ForecastInfo>(responseBody);
             }
             catch (HttpRequestException e)
             {

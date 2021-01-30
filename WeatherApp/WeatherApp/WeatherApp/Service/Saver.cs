@@ -25,7 +25,7 @@ namespace WeatherApp.Service
             get => _instance == null ? _instance = new Saver() : _instance;
         }
 
-        public async void SerializeHistory(IEnumerable<string> list)
+        public async void SerializeHistory(IEnumerable<Location> list)
         {
 
             using (var sw = new StreamWriter(_pathHistory))
@@ -49,11 +49,11 @@ namespace WeatherApp.Service
             }
         }
 
-        public IEnumerable<string> GetHistory()
+        public IEnumerable<Location> GetHistory()
         {
             using (var sr = new StreamReader(_pathHistory))
             {
-                return JsonConvert.DeserializeObject<IEnumerable<string>>(sr.ReadToEnd());
+                return JsonConvert.DeserializeObject<IEnumerable<Location>>(sr.ReadToEnd());
             }
         }
 
