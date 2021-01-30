@@ -178,5 +178,16 @@ namespace WeatherApp.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        public string Icon
+        {
+            get => $"https://openweathermap.org/img/wn/{_weatherInfo?.weather?[0]?.icon}@2x.png" ?? String.Empty;
+
+            set
+            {
+                _weatherInfo.weather[0].icon = value;
+                OnPropertyChanged();
+            }
+        }
     }
 }

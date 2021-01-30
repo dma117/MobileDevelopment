@@ -19,9 +19,12 @@
                        FontSize="Header"
                        HorizontalOptions="Center"
                        VerticalOptions="CenterAndExpand"/>
-                <Label Text="{Binding WeatherDescription}"
-                       FontSize="Title"
-                       HorizontalOptions="Center"/>
+                <StackLayout Orientation="Horizontal"
+                             HorizontalOptions="CenterAndExpand">
+                    <Label Text="{Binding WeatherDescription}"
+                           FontSize="Title"/>
+                    <Image Source="{Binding Icon}"/>
+                </StackLayout>
                 <Label Text="{Binding Date}"
                        FontSize="Title"
                        HorizontalOptions="Center"/>
