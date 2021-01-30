@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using WeatherApp.Models;
+using Xamarin.Forms;
 
 namespace WeatherApp.Service
 {
@@ -31,6 +32,11 @@ namespace WeatherApp.Service
             {
                 throw new Exception();
             }
+        }
+
+        public static bool InternetConnected()
+        {
+            return Xamarin.Essentials.Connectivity.NetworkAccess == Xamarin.Essentials.NetworkAccess.Internet;
         }
     }
 }

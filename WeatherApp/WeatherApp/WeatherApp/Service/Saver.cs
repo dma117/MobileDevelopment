@@ -41,10 +41,11 @@ namespace WeatherApp.Service
         {
             using (var sw = new StreamWriter(_pathWeather))
             {
-                string task = await Task.Run(() =>
-                 JsonConvert.SerializeObject(info));
-
-                sw.Write(task);
+                await Task.Run(() =>
+                {
+                    var str = JsonConvert.SerializeObject(info);
+                    sw.Write(str);
+                });
             }
         }
 
@@ -52,15 +53,17 @@ namespace WeatherApp.Service
         {
             using (var sr = new StreamReader(_pathHistory))
             {
-                return JsonConvert.DeserializeObject<IEnumerable<string>>(sr.ReadLine());
+                return JsonConvert.DeserializeObject<IEnumerable<string>>(sr.ReadToEnd());
             }
         }
 
-        public WeatherInfo GetCurrentWeather()
+        public async Task<WeatherInfo> GetCurrentWeather()
         {
             using (var sr = new StreamReader(_pathWeather))
             {
-                return JsonConvert.DeserializeObject<WeatherInfo>(sr.ReadLine());
+                var str = await sr.ReadToEndAsync();
+                //var elements = JsonConvert.DeserializeObject<WeatherInfo>(sr.ReadLine());
+                return JsonConvert.DeserializeObject<WeatherInfo>(str);
             }
         }
     }

@@ -17,9 +17,9 @@ namespace WeatherApp.Models
         public Sys sys { get; set; }
         public int timezone { get; set; }
         public string date { get; set; }
-        public string location { get; set; }
+        //public string location { get; set; }
        // public int id { get; set; }
-        //public string name { get; set; }
+        public string name { get; set; }
         //public int cod { get; set; }
     }
 

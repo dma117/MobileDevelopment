@@ -2,18 +2,17 @@
 using WeatherApp.Models;
 using WeatherApp.Service;
 using Xamarin.Forms;
+using WeatherApp.Helpers;
+using System.Threading.Tasks;
 
 namespace WeatherApp.ViewModels
 {
     public class WeatherPageViewModel : BaseViewModel
     {
         private WeatherInfo _weatherInfo;
-        private string _location;
 
         public WeatherPageViewModel()
         {
-            _location = "Vladivostok";
-
             SetWeatherInfoAsync();
         }
 
@@ -21,13 +20,59 @@ namespace WeatherApp.ViewModels
 
         public async void SetWeatherInfoAsync() 
         {
-            _weatherInfo = await HttpRequestHandler.GetModelAsync(LocationName);
+            _weatherInfo = await Saver.Instance.GetCurrentWeather();
 
+           // _weatherInfo = await HttpRequestHandler.GetModelAsync("Vladivostok");
+            /*// _weatherInfo.location = "Vladivostok";
+            _weatherInfo.date = DateTime.UtcNow.AddSeconds(_weatherInfo.timezone).ToString("d");
+
+            Saver.Instance.SerializeCurrentWeather(_weatherInfo);*/
+
+
+            if (HttpRequestHandler.InternetConnected())
+            {
+                SetWeatherByInternetConnection(LocationName);
+            }
+            else
+            {
+                ErrorMessenger.Instance.LoadWeatherFailed();
+            }
+
+            UpdateProperties();
+        }
+
+        private async void SetWeatherByInternetConnection(string location)
+        {
+            _weatherInfo = await HttpRequestHandler.GetModelAsync(location);
+            // _weatherInfo.location = "Vladivostok";
+            _weatherInfo.date = DateTime.UtcNow.AddSeconds(_weatherInfo.timezone).ToString("d");
+            Saver.Instance.SerializeCurrentWeather(_weatherInfo);
+        }
+
+        private void UpdateProperties()
+        {
             Temperature = (int)_weatherInfo.main.temp;
             WindSpeed = _weatherInfo.wind.speed;
             Humidity = _weatherInfo.main.humidity;
             WeatherDescription = _weatherInfo.weather[0].description;
-            Date = DateTime.UtcNow.AddSeconds(_weatherInfo.timezone).ToString("d");
+            Date = _weatherInfo.date;
+            LocationName = _weatherInfo.name;
+        }
+
+        public bool ChangeCurrentLocation(string location)
+        {
+            if (!HttpRequestHandler.InternetConnected())
+            {
+                ErrorMessenger.Instance.ChangeLocationFailed();
+                
+                return false;
+            }
+
+            SetWeatherByInternetConnection(location);
+            UpdateProperties();
+            //_weatherInfo.location = location;
+
+            return true;
         }
 
         public int Temperature
@@ -87,11 +132,11 @@ namespace WeatherApp.ViewModels
 
         public string LocationName
         {
-            get => _location;
+            get => _weatherInfo?.name ?? "ddff";
 
             set
             {
-                _location = value;
+                _weatherInfo.name = value;
                 OnPropertyChanged();
             }
         }

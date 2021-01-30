@@ -56,6 +56,7 @@ namespace WeatherApp.ViewModels
                 SearchLocations(_typedText);
             }
         }
+
         private void SearchLocations(object obj)
         {
             var location = obj as string;
@@ -64,7 +65,7 @@ namespace WeatherApp.ViewModels
                 return;
 
             Task.Run(() => {
-                Locations = _locations.Where(x => x.StartsWith(location)).ToList();
+                Locations = _locations.Where(x => x.ToUpper().StartsWith(location.ToUpper())).ToList();
             });
         }
     }

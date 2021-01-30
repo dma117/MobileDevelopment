@@ -17,7 +17,7 @@ namespace WeatherApp.ViewModels
         public SidePageViewModel(WeatherPageViewModel weatherPageViewModel)
         {
             _weatherPageViewModel = weatherPageViewModel;
-            _historyLocationsViewModel = new HistoryLocationsViewModel();
+            _historyLocationsViewModel = new HistoryLocationsViewModel(_weatherPageViewModel);
 
             Task.Run(() => {
                 LocationsLoader.Instance.LoadLocations();
@@ -39,12 +39,6 @@ namespace WeatherApp.ViewModels
 
         private void ShowWeather()
         {
-            if (_historyLocationsViewModel.ChosenLocation != null)
-            {
-                _weatherPageViewModel.LocationName = _historyLocationsViewModel.ChosenLocation;
-                _weatherPageViewModel.SetWeatherInfoAsync();
-            }
-
             MasterDetailPage.Detail = new NavigationPage(new WeatherPageView(_weatherPageViewModel));
         }
     }
