@@ -51,6 +51,11 @@ namespace WeatherApp.Service
 
         public IEnumerable<Location> GetHistory()
         {
+            if (!File.Exists(_pathHistory))
+            {
+                return new List<Location>();
+            }
+
             using (var sr = new StreamReader(_pathHistory))
             {
                 return JsonConvert.DeserializeObject<IEnumerable<Location>>(sr.ReadToEnd());
@@ -59,6 +64,11 @@ namespace WeatherApp.Service
 
         public async Task<WeatherInfo> GetCurrentWeather()
         {
+            if (!File.Exists(_pathWeather))
+            {
+                return new WeatherInfo();
+            }
+
             using (var sr = new StreamReader(_pathWeather))
             {
                 var str = await sr.ReadToEndAsync();

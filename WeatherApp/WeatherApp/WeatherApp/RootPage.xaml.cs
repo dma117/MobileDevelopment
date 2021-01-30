@@ -21,7 +21,7 @@ namespace WeatherApp
 
             var weatherPageViewModel = new WeatherPageViewModel();
 
-            Detail = new NavigationPage(new WeatherPageView(weatherPageViewModel));
+            Detail = new NavigationPage(new WeatherPageView(weatherPageViewModel) { BackgroundImageSource = "weather.jpg" });
             Master = new SidePageView(new SidePageViewModel(weatherPageViewModel) { MasterDetailPage = this });
         }
     }

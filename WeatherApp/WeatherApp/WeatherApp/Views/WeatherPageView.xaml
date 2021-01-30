@@ -11,10 +11,15 @@
                    FontSize="Large"/>
         </StackLayout>
     </NavigationPage.TitleView>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Share"
+                     Order="Primary"
+                     Priority="0"
+                     Command="{Binding ShareCommand}"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
-            <StackLayout BackgroundColor="Bisque"
-                         Padding="10">
+            <StackLayout Padding="10">
                 <Label Text="{Binding Temperature}"
                        FontSize="Header"
                        HorizontalOptions="Center"
@@ -29,13 +34,12 @@
                        FontSize="Title"
                        HorizontalOptions="Center"/>
             </StackLayout>
-            <StackLayout BackgroundColor="Aqua"
-                         Orientation="Horizontal"
+            <StackLayout Orientation="Horizontal"
                          Margin="30,0,30,0">
-                <StackLayout BackgroundColor="Yellow"
-                             HorizontalOptions="Start">
+                <StackLayout HorizontalOptions="Start">
                     <StackLayout Orientation="Horizontal">
-                        <Image Source="cloud_icon.png"/>
+                        <Image Source="arrow.png"
+                               Rotation="{Binding WindRotation}"/>
                         <Label Text="NNW"
                                VerticalOptions="Center"/>
                     </StackLayout>
@@ -47,17 +51,16 @@
                     <Image Source="cloud_icon.png"/>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal"
-                             BackgroundColor="LightGreen"
                              HorizontalOptions="EndAndExpand">
                     <Label Text="{Binding Humidity}"
                            VerticalOptions="Center"/>
                 </StackLayout>
             </StackLayout>
-            <Frame>
+            <StackLayout>
                 <Label Text="Forecast"
                        HorizontalTextAlignment="Center"
                        FontSize="Large"/>
-            </Frame>
+            </StackLayout>
             <ListView ItemsSource="{Binding Forecast}">
                 <ListView.ItemTemplate>
                     <DataTemplate>

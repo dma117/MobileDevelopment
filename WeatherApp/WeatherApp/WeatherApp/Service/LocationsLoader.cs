@@ -9,7 +9,6 @@ using System.Linq;
 
 namespace WeatherApp.Service
 {
-
     public class LocationsLoader
     {
         private static LocationsLoader _instance;
@@ -17,8 +16,6 @@ namespace WeatherApp.Service
         private LocationsLoader() 
         {
             LocationDescriptions = new List<CitiesInfo>();
-            //LocationsNames = new List<string>();
-            //LocationsCountries = new List<string>();
             AllLocations = new List<Location>();
         }
        
@@ -28,8 +25,6 @@ namespace WeatherApp.Service
         }
 
         public List<CitiesInfo> LocationDescriptions;
-        //public List<string> LocationsNames;
-        //public List<string> LocationsCountries;
 
         public List<Location> AllLocations;
 

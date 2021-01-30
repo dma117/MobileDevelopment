@@ -40,7 +40,7 @@ namespace WeatherApp.ViewModels
 
         private void ShowWeather()
         {
-            MasterDetailPage.Detail = new NavigationPage(new WeatherPageView(_weatherPageViewModel));
+            MasterDetailPage.Detail = new NavigationPage(new WeatherPageView(_weatherPageViewModel) { BackgroundImageSource = "weather.jpg" });
         }
     }
 }

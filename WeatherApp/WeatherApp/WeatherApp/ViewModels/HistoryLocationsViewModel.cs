@@ -23,6 +23,7 @@ namespace WeatherApp.ViewModels
             _locationsHistory = new ObservableCollection<Location>();
 
             LoadHistoryLocations();
+            //LocationsHistory = new ObservableCollection<Location>();
             
             AddLocationCommand = new Command(OpenLocations);
             ChooseLocationCommand = new Command(ChooseLocation);

@@ -5,6 +5,8 @@ using Xamarin.Forms;
 using WeatherApp.Helpers;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Xamarin.Essentials;
+using System.Windows.Input;
 
 namespace WeatherApp.ViewModels
 {
@@ -12,23 +14,33 @@ namespace WeatherApp.ViewModels
     {
         private WeatherInfo _weatherInfo;
         private List<Forecast> _forecast;
-        private readonly int _days = 7;
+        private readonly int _updateTime = 5;
 
         public WeatherPageViewModel()
         {
             _forecast = new List<Forecast>();
+            ShareCommand = new Command(ShareWeather);
             SetWeatherInfoAsync();
+
+            Device.StartTimer(TimeSpan.FromMinutes(_updateTime), () => {
+                SetWeatherInfoAsync(); 
+                return true; 
+            });
         }
 
         public INavigation Navigation { get; set; }
+        public ICommand ShareCommand { get; set; }
+        public int WindRotation { get; set; }
 
         public async void SetWeatherInfoAsync() 
         {
+            var location = await GeolocationService.Instance.GetCurrentLocation();
+
             _weatherInfo = await Saver.Instance.GetCurrentWeather();
 
             if (HttpRequestHandler.InternetConnected())
             {
-                SetWeatherByInternetConnection(LocationName);
+                await SetWeatherByInternetConnection(location);
             }
             else
             {
@@ -38,10 +50,13 @@ namespace WeatherApp.ViewModels
             UpdateProperties();
         }
 
-        private async void SetWeatherByInternetConnection(string location)
+        private async Task SetWeatherByInternetConnection(string location)
         {
             _weatherInfo = await HttpRequestHandler.GetModelAsync(location);
             _weatherInfo.date = DateTime.UtcNow.AddSeconds(_weatherInfo.timezone).ToString("d");
+            
+            WindRotation = (_weatherInfo.wind.deg + 180) % 361;
+            
             Saver.Instance.SerializeCurrentWeather(_weatherInfo);
             
             var list = (await HttpRequestHandler.GetForecastInfoAsync(LocationName)).list;
@@ -89,6 +104,11 @@ namespace WeatherApp.ViewModels
             //_weatherInfo.location = location;
 
             return true;
+        }
+
+        private async void ShareWeather()
+        {
+            await Sharer.Instance.ShareText(_weatherInfo);
         }
 
         public List<Forecast> Forecast
